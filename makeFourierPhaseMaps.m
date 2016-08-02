@@ -232,8 +232,10 @@ for thiscondition = 1 :numconditions
         %signal is periodic and it's duration is infinite, and we only ever observe a fraction
         %of the infinitely long signal. Because of this we might have discontinuities (or imperfect periodic signal) which contribute to spectral leakage.
         %This website:http://bugra.github.io/work/notes/2012-09-15/Spectral-Leakage/ offers a nice explanation with figures.
-        
-        f0 = 4096 - (sum(stimFrames(:,:,1:2),3)/2);
+        f0 = sum(stimFrames(:,:,1:2),3)/2;
+        if ~gcampFlag
+            f0 = 4096 - f0;
+        end
         fourierTransform = fourierTransform - f0*sum(exp(1i*anglularFreqofFrames)); 
         fourierTransform = 2*fourierTransform ./n; %normalize/scale the transform
        
